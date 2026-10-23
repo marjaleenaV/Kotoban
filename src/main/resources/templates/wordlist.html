@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Kotoban</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+
+   <h1>Kotoban</h1>
+   
+    <form th:action="@{/index}" method="get">
+	<input class="btn" type="submit" value="Back"/>
+
+    <table class="table table-striped">
+  <tr>
+   <th>Japanese</th>
+   <th>Readings</th>
+   <th>Meaning</th>
+   
+  </tr>
+     <tr th:each = "word : ${words}">
+       <td th:text="${word.japanese}"></td>
+       <td th:text="${word.reading}"></td>
+        <td th:text="${word.meaning}"></td>
+     </tr>
+</table>
+</form>
+
+</body>
+</html>

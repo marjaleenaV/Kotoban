@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bookstore</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+
+   <h1>Welcome to Kotoban</h1>
+   <p>What would you like to learn today?</p>
+   <form th:action="@{/wordlist}" method="get">
+	<input class="btn btn-success" type="submit" value="Open a wordlist"/>
+</form>
+
+</body>
+</html>
