@@ -7,16 +7,18 @@ import org.springframework.context.annotation.Bean;
 
 import kotoban.domain.Word;
 import kotoban.domain.WordRepository;
+import kotoban.domain.User;
+import kotoban.domain.UserRepository;
 
 @SpringBootApplication
 public class KotobanApplication {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 		SpringApplication.run(KotobanApplication.class, args);
 	}
 
 	@Bean
-	public CommandLineRunner dataFeed(WordRepository wordRepository) {
+	public CommandLineRunner dataFeed(WordRepository wordRepository, UserRepository userRepository) {
 		return (params) -> {
 
 			//Words
@@ -49,6 +51,22 @@ public class KotobanApplication {
 			word1.setReading("しろい");
 			word1.setMeaning("valkoinen");
 			wordRepository.save(word5);
+
+			User user1 = new User();
+			user1.setUsername("user");
+			//password:user
+			user1.setPasswordHash("$2a$10$/mc9hc6v0GA5q5MC.Ai43.vvC8yKpYuCTI0kGLQxr37lWTeHnY7.e");
+			user1.setEmail("user@mail.com");
+			user1.setRole("USER");
+			userRepository.save(user1);
+			
+			User user2 = new User();
+			user2.setUsername("admin");
+			//password:admin
+			user2.setPasswordHash("$2a$10$LhemIpLXLuxlrgc3xOqKfOFTzE4Z5pbL4Ow1kbKN0tKKh3IcAjrG6");
+			user2.setEmail("admin@mail.com");
+			user2.setRole("ADMIN");
+			userRepository.save(user2);
 			
 			wordRepository.findAll();
 		};

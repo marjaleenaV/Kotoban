@@ -12,11 +12,11 @@ import kotoban.domain.Word;
 import kotoban.domain.WordRepository;
 
 @Controller
-public class WordController {
+public class GameController {
     private WordRepository wordRepository;
 
     //Injection
-    public WordController(WordRepository wordRepository) {
+    public GameController(WordRepository wordRepository) {
         this.wordRepository = wordRepository;
     }
 

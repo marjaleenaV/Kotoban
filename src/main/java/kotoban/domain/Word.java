@@ -1,13 +1,11 @@
 package kotoban.domain;
 
-import org.springframework.stereotype.Indexed;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-//Word Class, where the information of the word is determined.
+//Word Entity
 
 @Entity
 public class Word {
