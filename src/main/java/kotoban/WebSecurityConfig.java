@@ -28,7 +28,6 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-	
 
     @Bean
 	public SecurityFilterChain configure(HttpSecurity http, UserDetailsService userDetailsService) throws Exception {
@@ -38,7 +37,7 @@ public class WebSecurityConfig {
 				.requestMatchers("/css/**").permitAll() // Enable css when logged out
 				.anyRequest().authenticated()
 			).formLogin(formlogin -> formlogin
-				.defaultSuccessUrl("/index", true).permitAll()
+				.defaultSuccessUrl("/index", true).permitAll() // Page after successful login
 			).logout(logout -> logout
 				.permitAll()
 			);

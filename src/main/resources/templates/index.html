@@ -1,17 +1,42 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Bookstore</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
 </head>
+
 <body>
+    <nav class="navbar bg-white border-bottom">
 
-   <h1>Welcome to Kotoban</h1>
-   <p>What would you like to learn today?</p>
-   <form th:action="@{/wordlist}" method="get">
-	<input class="btn btn-success" type="submit" value="Open a wordlist"/>
-</form>
+        <div class="container">
+            <form th:action="@{/logout}" method="post" class="m-0">
+                <button type="submit" class="btn btn-outline-dark rounded-pill">Sign out</button>
+            </form>
+        </div>
+    </nav>
+    <main class="container py-5" style="text-align: center;">
+        <div class="py-4">
 
+            <h1 class="display-4 fw-bold">Welcome to Kotoban <span sec:authentication="name">user</span>!</h1>
+            <br>
+            <br>
+            <h4>What would you like to learn today?</h4>
+        </div>
+        <form th:action="@{/wordlists}" method="get">
+            <input class="btn btn-success" type="submit" value="Show my wordlists" />
+        </form>
+        <br>
+        <form th:action="@{/review}" method="get">
+            <input class="btn btn-success" type="submit" value="Review of words" />
+        </form>
+        <br>
+        <form th:action="@{/wordlist}" method="get">
+            <input class="btn btn-success" type="submit" value="Show all the words" />
+        </form>
+        </div>
+        </nav>
 </body>
+
 </html>

@@ -4,6 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 
 //Word Entity
 
@@ -17,6 +22,16 @@ public class Word {
     private String japanese;
     private String reading;
     private String meaning;
+    
+
+    //Connection to Category class that word can have one or more categories
+    @ManyToOne 
+    @JoinColumn(name = "categoryId")
+    private Category wordCategory;
+
+    //@ManyToOne
+    //@JoinColumn(name="role")
+    //private User user;
 
     public Word() {
 

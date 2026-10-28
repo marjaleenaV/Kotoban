@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <title>Wordlists</title>
+</head>
+
+<body>
+    <nav class="navbar bg-white border-bottom">
+
+        <div class="container">
+            <form th:action="@{/logout}" method="post" class="m-0">
+                <button type="submit" class="btn btn-outline-dark rounded-pill">Sign out</button>
+            </form>
+        </div>
+    </nav>
+     <main class="container py-5" style="text-align: center;">
+        <div class="py-4">
+            <h1 class="display-4 fw-bold">My wordlists</h1>
+
+            <p th:if="${#lists.isEmpty(lists)}">You don't have any lists yet.</p>
+
+    <ul class="list-group">
+        <li class="list-group-item" th:each="list : ${lists}">
+            <strong th:text="${list.username}">List name</strong>
+            <span class="text-secondary" th:text="${#lists.size(list.wordlist)} + ' words'">0 words</span>
+        </li>
+    </ul>
+
+            <a th:href="@{/index}" class="btn btn-outline-dark mt-4">Back</a>
+
+</body>
+
+</html>
