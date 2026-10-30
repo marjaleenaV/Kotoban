@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,7 @@ import kotoban.domain.WordList;
 import kotoban.domain.WordListRepository;
 import kotoban.domain.User;
 import kotoban.domain.UserRepository;
+
 
 
 @Controller
@@ -45,13 +47,44 @@ public class GameController {
         //return "review";
     //}
 
-    //Search users wordlists
+    //Show users wordlists
     @RequestMapping(value="/wordlists", method=RequestMethod.GET)
     public String showWordLists(Model model, Principal principal) {
         User user = userRepository.findByUsername(principal.getName());
         model.addAttribute("lists", wordListRepository.findByOwner(user));
         return "wordlists";
     }
+
+    //Open a list creation form
+    @RequestMapping(value="/listform", method=RequestMethod.GET)
+    public String showNewListForm(Model model) {
+        model.addAttribute("wordlist", new WordList());
+        return "listform";
+    }
+    
+    //Save a new wordlist
+    @RequestMapping(value="savelist", method=RequestMethod.POST)
+    public String saveNewList(WordList wordList) {
+    WordList newList = wordListRepository.save(wordList);
+    return "redirect:wordlists/" + newList.getWordListId();
+    }
+
+    //Open a addwords form
+    @RequestMapping(value="/wordlists/{id}", method=RequestMethod.GET)
+    public String openAddWordsForm(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("list", wordListRepository.findById(id).get());
+        model.addAttribute("word", new Word());
+        return "addwords";
+    }
+    
+    //Save words to the list
+    @RequestMapping(value="/savewords", method=RequestMethod.POST)
+    public String saveWords(WordList wordList) {
+        wordListRepository.save(wordList);
+        return new String();
+    }
+    
+    
     
 
     //Wordlist view

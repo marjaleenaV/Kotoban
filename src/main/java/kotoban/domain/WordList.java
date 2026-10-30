@@ -1,12 +1,10 @@
 package kotoban.domain;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,7 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+
 
 
 //WordList Entity
@@ -36,9 +34,9 @@ public class WordList {
 
     //Connection between words and lists -> Wordlist can have many words and word can belong in many lists
     @ManyToMany 
-    @JoinTable(name="wordList",
-        joinColumns = @JoinColumn(name="wordListId"),
-            inverseJoinColumns = @JoinColumn(name="id")
+    @JoinTable(name="word_list_words",
+        joinColumns = @JoinColumn(name="word_list_id"),
+            inverseJoinColumns = @JoinColumn(name="word_id")
         )
 
     //Set makes sure that list doesn't have same word twice

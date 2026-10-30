@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Kotoban</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+</head>
+
+<body>
+    <nav class="navbar bg-white border-bottom">
+
+        <div class="container">
+            <form th:action="@{/logout}" method="post" class="m-0">
+                <button type="submit" class="btn btn-outline-dark rounded-pill">Sign out</button>
+            </form>
+        </div>
+    </nav>
+    <main class="container py-5" style="text-align: center;">
+        <div class="py-4">
+            <h1 class="display-4 fw-bold">Add words to the list</h1>
+
+            <form th:object="${word}" th:action="@{../savewords}" action="#" method="post">
+                <table style="margin: auto;">
+                    <tr>
+                        <td><label for="japanese">Japanese</label>
+                            <input type="text" id="japanese" th:field="*{japanese}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="reading">Reading</label>
+                            <input type="text" id="reading" th:field="*{reading}" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><label for="meaning">Meaning</label>
+                            <input type="text" id="meaning" th:field="*{meaning}" />
+                        </td>
+                    </tr>
+                </table>
+                <form th:action="@{/add}" method="post" class="m-0">
+                        <button type="submit" class="btn btn-outline-dark rounded-pill">Add</button>
+                    </form>
+                    <br>
+                <button type="submit" class="btn btn-outline-dark rounded-pill">Save list</button>
+            </form>
+        </div>
+    </main>
+
+</body>
+
+</html>

@@ -28,6 +28,9 @@
             <span class="text-secondary" th:text="${#lists.size(list.wordlist)} + ' words'">0 words</span>
         </li>
     </ul>
+    <form th:action="@{/listform}" method="get">
+            <input class="btn btn-success" type="submit" value="Create a new list" />
+        </form>
 
             <a th:href="@{/index}" class="btn btn-outline-dark mt-4">Back</a>
 
