@@ -1,7 +1,6 @@
 package kotoban.web;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -9,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import kotoban.domain.Word;
 import kotoban.domain.WordRepository;
@@ -17,6 +15,8 @@ import kotoban.domain.WordList;
 import kotoban.domain.WordListRepository;
 import kotoban.domain.User;
 import kotoban.domain.UserRepository;
+
+
 
 
 
@@ -33,6 +33,8 @@ public class GameController {
         this.wordListRepository = wordListRepository;
         this.userRepository = userRepository;
     }
+
+    
 
     // Game start 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -85,8 +87,6 @@ public class GameController {
     }
     
     
-    
-
     //Wordlist view
     @RequestMapping(value = "/wordlist", method = RequestMethod.GET)
     public List<Word> showWordList() {
