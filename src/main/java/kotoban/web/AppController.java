@@ -3,6 +3,7 @@ package kotoban.web;
 import java.security.Principal;
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,18 +18,15 @@ import kotoban.domain.User;
 import kotoban.domain.UserRepository;
 
 
-
-
-
 @Controller
-public class GameController {
+public class AppController {
     private WordListRepository wordListRepository;
     private WordRepository wordRepository;
     private UserRepository userRepository;
     
 
     // Injection
-    public GameController(WordRepository wordRepository, WordListRepository wordListRepository, UserRepository userRepository) {
+    public AppController(WordRepository wordRepository, WordListRepository wordListRepository, UserRepository userRepository) {
         this.wordRepository = wordRepository;
         this.wordListRepository = wordListRepository;
         this.userRepository = userRepository;
@@ -66,8 +64,9 @@ public class GameController {
     
     //Save a new wordlist
     @RequestMapping(value="savelist", method=RequestMethod.POST)
-    public String saveNewList(WordList wordList) {
-    WordList newList = wordListRepository.save(wordList);
+    public String saveList(WordList wordList, Principal principal) {
+    wordList.setOwner(userRepository.findByUsername(principal.getName()));
+        WordList newList = wordListRepository.save(wordList);
     return "redirect:wordlists/" + newList.getWordListId();
     }
 
@@ -80,17 +79,32 @@ public class GameController {
     }
     
     //Save words to the list
-    @RequestMapping(value="/savewords", method=RequestMethod.POST)
-    public String saveWords(WordList wordList) {
+    @RequestMapping(value="/wordlists/{listid}/addwords", method=RequestMethod.POST)
+    public String saveWords(@PathVariable("listid") Long listid, Word word) {
+        WordList wordList = wordListRepository.findById(listid).orElseThrow();
+        wordList.getWordlist().add(word);
         wordListRepository.save(wordList);
-        return new String();
+        return "redirect:/wordlists/" + listid;
     }
-    
-    
-    //Wordlist view
-    @RequestMapping(value = "/wordlist", method = RequestMethod.GET)
-    public List<Word> showWordList() {
+
+        
+    //Show all words
+    @RequestMapping(value = "/words", method = RequestMethod.GET)
+    public List<Word> showWordList(Model model) {
         List<Word> words = (List<Word>) wordRepository.findAll();
+        model.addAttribute("words", words);
         return words;
     }
+    
+    //Delete words in word view, only for ADMIN
+
+    @PreAuthorize("hasAuthority('ADMIN')") 
+    //Security
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public String deleteWord(@PathVariable("id") Long wordId, Model model) {
+	wordRepository.deleteById(wordId);
+	return "redirect:../words";
+}
+
+ 
 }

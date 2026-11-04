@@ -10,4 +10,5 @@ public interface WordListRepository extends CrudRepository<WordList, Long> {
 List<WordList> findByOwner(User owner);
 List<WordList> findByWordlist(Set<Word> wordlist);
 List<WordList> findByListName(String listName);
+List<WordList> findByWordListId(Long wordListId);
 }

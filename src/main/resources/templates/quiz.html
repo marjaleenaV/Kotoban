@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <title>Quiz</title>
+</head>
+
+<body>
+    <nav class="navbar bg-white border-bottom">
+
+        <div class="container">
+            <form th:action="@{/logout}" method="post" class="m-0">
+                <button type="submit" class="btn btn-outline-dark rounded-pill">Sign out</button>
+            </form>
+        </div>
+    </nav>
+    <main class="container py-5" style="text-align: center;">
+        <div class="py-4">
+            <h1 th:text="${quizWord.japanese}">漢字</h1>
+
+            <details>
+                <summary>Show reading</summary>
+                <p th:text="${quizWord.reading}"></p>
+            </details>
+
+            <form th:action="@{/quiz/answer}" method="post" class="mt-4">
+                <input type="text" name="answer" placeholder="Meaning" autofocus />
+                <input type="submit" value="Check" class="btn btn-outline-dark" />
+            </form>
+            <div th:if="${answer != null}">
+                <p th:if="${answer}" class="text-success">Answer was correct!</p>
+                <p th:unless="${answer}" class="text-danger">
+                    Answer was wrong. The correct answer is <span th:text="${correctAnswer}"></span>.
+                </p>
+                <form th:if="${correctAnswer != null and !last}" th:action="@{/quiz/next}" method="get" class="m-0">
+                    <button type="submit" class="btn btn-outline-dark">Next</button>
+                </form>
+                <form th:if="${correctAnswer != null and last}" th:action="@{/wordlists}" method="get" class="m-0">
+                    <button type="submit" class="btn btn-outline-dark">Finish</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

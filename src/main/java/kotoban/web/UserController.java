@@ -25,13 +25,13 @@ public class UserController {
     }
 
     //Go to the login page
-    @RequestMapping(value="/login")
+    @RequestMapping(value="/login", method = RequestMethod.GET)
     public String login() {	
         return "login";
     }
 
     //Open a signupform and create new form
-    @RequestMapping(value = "signup")
+    @RequestMapping(value = "signup", method= RequestMethod.GET)
     public String addStudent(Model model){
     	model.addAttribute("signupform", new SignUpForm());
         return "signup";

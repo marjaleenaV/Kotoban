@@ -20,7 +20,7 @@
         <div class="py-4">
             <h1 class="display-4 fw-bold">Add words to the list</h1>
 
-            <form th:object="${word}" th:action="@{../savewords}" action="#" method="post">
+            <form th:object="${word}" th:action="@{../wordlists/{listid}/addwords(listid=${list.wordListId})}" action="#" method="post">
                 <table style="margin: auto;">
                     <tr>
                         <td><label for="japanese">Japanese</label>
@@ -39,16 +39,32 @@
                         </td>
                     </tr>
                 </table>
-                <form th:action="@{/add}" method="post" class="m-0">
-                        <button type="submit" class="btn btn-outline-dark rounded-pill">Add</button>
-                    </form>
-                    <br>
-                <button type="submit" class="btn btn-outline-dark rounded-pill">Save list</button>
-                <form th:action="@{/wordlists}" method="get" class="mt-4">
-                        <button type="submit" class="btn btn-outline-dark rounded-pill">Cancel</button>
-                    </form>
+                <button type="submit" class="btn btn-outline-dark rounded-pill">Add</button>
             </form>
-            
+            <br>
+            <form th:action="@{../wordlists}" method="get" class="mt-4">
+                <button type="submit" class="btn btn-outline-dark rounded-pill">Save list</button>
+            </form>
+            <form th:action="@{/wordlists}" method="get" class="mt-4">
+                <button type="submit" class="btn btn-outline-dark rounded-pill">Cancel</button>
+            </form>
+
+            <table class="table table-striped">
+                <tr>
+                    <th>Japanese</th>
+                    <th>Reading</th>
+                    <th>Meaning</th>
+                    <th></th>
+
+                </tr>
+                <tr th:each="word : ${list.wordlist}">
+                    <td th:text="${word.japanese}"></td>
+                    <td th:text="${word.reading}"></td>
+                    <td th:text="${word.meaning}"></td>
+                    <td><a class="btn btn-danger" th:href="@{/delete/{id}(id=${word.id})}">Delete</a>
+                    </td>
+                </tr>
+            </table>
         </div>
     </main>
 

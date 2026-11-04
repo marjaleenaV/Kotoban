@@ -11,19 +11,21 @@
    
    
     <form th:action="@{/index}" method="get">
-	<input class="btn" type="submit" value="Back" />
+	<input class="btn btn-outline-dark  rounded-pill mt-4" type="submit" value="Back" />
 
     <table class="table table-striped">
   <tr>
    <th>Japanese</th>
    <th>Readings</th>
    <th>Meaning</th>
+   <th sec:authorize="hasAuthority('ADMIN')"> </th>
    
   </tr>
      <tr th:each = "word : ${words}">
        <td th:text="${word.japanese}"></td>
        <td th:text="${word.reading}"></td>
         <td th:text="${word.meaning}"></td>
+         <td sec:authorize="hasAuthority('ADMIN')"><a class="btn btn-danger" th:href="@{/delete/{id}(id=${word.id})}">Delete</a></td>
      </tr>
 </table>
 </form>

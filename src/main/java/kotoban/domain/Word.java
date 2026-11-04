@@ -48,7 +48,9 @@ public class Word {
     }
     public void setId(Long id) {
         this.id = id;
+    
     }
+    
     public String getJapanese() {
         return japanese;
     }
@@ -71,6 +73,14 @@ public class Word {
     @Override
     public String toString() {
         return "Word [japanese=" + japanese + ", reading=" + reading + ", meaning=" + meaning + "]";
+    }
+
+    public Category getWordCategory() {
+        return wordCategory;
+    }
+
+    public void setWordCategory(Category wordCategory) {
+        this.wordCategory = wordCategory;
     }
 
 }
