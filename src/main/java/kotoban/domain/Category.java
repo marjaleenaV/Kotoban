@@ -1,5 +1,6 @@
 package kotoban.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -24,7 +25,7 @@ public class Category {
     @JsonIgnoreProperties("wordCategory")
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "wordCategory")
-    private List<Word> words;
+    private List<Word> words = new ArrayList<>();
 
     private String wordCategory;
 
@@ -32,7 +33,6 @@ public class Category {
     public Category() {
     }
 
-    
 
     public Category(List<Word> words, String wordCategory) {
         this.words = words;

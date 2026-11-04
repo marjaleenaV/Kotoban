@@ -3,6 +3,7 @@ package kotoban.web;
 import java.security.Principal;
 import java.util.List;
 
+import kotoban.domain.CategoryRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,20 +17,24 @@ import kotoban.domain.WordList;
 import kotoban.domain.WordListRepository;
 import kotoban.domain.User;
 import kotoban.domain.UserRepository;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @Controller
 public class AppController {
+    private final CategoryRepository categoryRepository;
     private WordListRepository wordListRepository;
     private WordRepository wordRepository;
     private UserRepository userRepository;
     
 
     // Injection
-    public AppController(WordRepository wordRepository, WordListRepository wordListRepository, UserRepository userRepository) {
+    public AppController(WordRepository wordRepository, WordListRepository wordListRepository, UserRepository userRepository, CategoryRepository categoryRepository) {
         this.wordRepository = wordRepository;
         this.wordListRepository = wordListRepository;
         this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     
@@ -54,6 +59,15 @@ public class AppController {
         model.addAttribute("lists", wordListRepository.findByOwner(user));
         return "wordlists";
     }
+
+    // Show Category lists
+    
+    @RequestMapping(value = "/categories", method=RequestMethod.GET)
+    public String showCategorylists(Model model) {
+        model.addAttribute("categories", categoryRepository.findAll());
+        return "categories";
+    }
+    
 
     //Open a list creation form
     @RequestMapping(value="/listform", method=RequestMethod.GET)

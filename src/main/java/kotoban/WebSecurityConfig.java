@@ -34,6 +34,7 @@ public class WebSecurityConfig {
 		http
 				.authorizeHttpRequests(authorize -> authorize
 						.requestMatchers("/login", "/signup", "/saveuser", "/css/**", "/error").permitAll() // Enable css when logged out
+						.requestMatchers("/admin/**").hasAuthority("ADMIN")
 						.anyRequest().authenticated())
 				.formLogin(formlogin -> formlogin
 						.loginPage("/login")
