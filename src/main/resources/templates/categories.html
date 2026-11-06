@@ -20,14 +20,14 @@
         <div class="py-4">
             <h1 class="display-4 fw-bold">Categories</h1>
 
-            <p th:if="${#lists.isEmpty(lists)}">Categories will be there soon.</p>
+            <p th:if="${#lists.isEmpty(categories)}">Categories will be there soon.</p>
 
             <ul class="list-group">
                 <li class="list-group-item" th:each="list : ${categories}">
-                    <a class="btn btn-success" type="button" th:href="@{/category/quiz/{categoryId}(categoryId=${categories.categorytId})}" th:text="${categories.wordCategory}"></a>
+                    <a class="btn btn-success" type="button" th:href="@{/categories/quiz/{categoryId}(categoryId=${list.categoryId})}" th:text="${list.wordCategory}"></a>
                 </li>
             </ul>
-            <form th:action="@{/listform}" method="get">
+            <form th:action="@{/categoryform}" method="get">
                 <input sec:authorize="hasAuthority('ADMIN')" class="btn btn-success" type="submit" value="Create a new list" />
             </form>
 

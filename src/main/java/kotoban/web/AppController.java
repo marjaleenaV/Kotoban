@@ -3,10 +3,12 @@ package kotoban.web;
 import java.security.Principal;
 import java.util.List;
 
+import kotoban.domain.Category;
 import kotoban.domain.CategoryRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AppController {
-    private final CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
     private WordListRepository wordListRepository;
     private WordRepository wordRepository;
     private UserRepository userRepository;
@@ -61,7 +63,6 @@ public class AppController {
     }
 
     // Show Category lists
-    
     @RequestMapping(value = "/categories", method=RequestMethod.GET)
     public String showCategorylists(Model model) {
         model.addAttribute("categories", categoryRepository.findAll());
@@ -69,11 +70,18 @@ public class AppController {
     }
     
 
-    //Open a list creation form
+    //Create a new Worlist and open a list creation form
     @RequestMapping(value="/listform", method=RequestMethod.GET)
     public String showNewListForm(Model model) {
         model.addAttribute("wordlist", new WordList());
         return "listform";
+    }
+
+    // Create a new category and open a category creation form
+    @RequestMapping(value="/categoryform", method=RequestMethod.GET)
+    public String showNewCategoryForm(Model model) {
+        model.addAttribute("category", new Category());
+        return "categoryform";
     }
     
     //Save a new wordlist
@@ -84,6 +92,13 @@ public class AppController {
     return "redirect:wordlists/" + newList.getWordListId();
     }
 
+    //Save Category
+     @RequestMapping(value="/savecategory", method=RequestMethod.POST)
+    public String saveList(Category category) {
+        Category newCategory = categoryRepository.save(category);
+    return "redirect:categories/" + newCategory.getCategoryId();
+    }
+
     //Open a addwords form
     @RequestMapping(value="/wordlists/{id}", method=RequestMethod.GET)
     public String openAddWordsForm(@PathVariable("id") Long id, Model model) {
@@ -91,6 +106,15 @@ public class AppController {
         model.addAttribute("word", new Word());
         return "addwords";
     }
+
+    //Open a addCategoryWords form
+    @RequestMapping(value="/categories/{listId}", method=RequestMethod.GET)
+    public String openAddCategoryWordsForm(@PathVariable("listId") Long listId, Model model) {
+        model.addAttribute("list", categoryRepository.findById(listId).get());
+        model.addAttribute("word", new Word());
+        return "addCategoryWords";
+    }
+
     
     //Save words to the list
     @RequestMapping(value="/wordlists/{listid}/addwords", method=RequestMethod.POST)
@@ -101,7 +125,23 @@ public class AppController {
         return "redirect:/wordlists/" + listid;
     }
 
-        
+    //Save words under the category
+    @RequestMapping(value="/categories/{listId}/addCategoryWords", method=RequestMethod.POST)
+    public String saveWordsToCategory(@PathVariable("listId") Long listId, Word word) {
+        Category category = categoryRepository.findById(listId).orElseThrow();
+        word.setWordCategory(category);
+        wordRepository.save(word);
+        return "redirect:/categories/" + listId;
+    }
+
+    //Remove words from category (while creating a category)
+    @GetMapping("/categories/{categoryId}/removeword/{wordId}")
+public String removeWordFromCategory(@PathVariable("categoryId") Long categoryId,
+                                     @PathVariable("wordId") Long wordId) {
+    wordRepository.deleteById(wordId);
+    return "redirect:/categories/" + categoryId;
+}
+      
     //Show all words
     @RequestMapping(value = "/words", method = RequestMethod.GET)
     public List<Word> showWordList(Model model) {
@@ -111,7 +151,6 @@ public class AppController {
     }
     
     //Delete words in word view, only for ADMIN
-
     @PreAuthorize("hasAuthority('ADMIN')") 
     //Security
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)

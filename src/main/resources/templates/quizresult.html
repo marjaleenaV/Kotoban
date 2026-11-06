@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <title>Quiz</title>
+</head>
+
+<body>
+    <nav class="navbar bg-white border-bottom">
+
+        <div class="container">
+            <form th:action="@{/logout}" method="post" class="m-0">
+                <button type="submit" class="btn btn-outline-dark rounded-pill">Sign out</button>
+            </form>
+        </div>
+    </nav>
+    <main class="container py-5" style="text-align: center;">
+        <div class="py-4">
+            <div style="text-align: center;">
+        <h1 class="display-4 fw-bold">List finished!</h1>
+        <p>You went through all the words.</p>
+
+        <a class="btn btn-outline-dark rounded-pill" th:href="@{/categories}">Back to categories</a>
+        <a class="btn btn-outline-dark rounded-pill" th:href="@{/wordlists}">Back to my wordlists</a>
+    </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

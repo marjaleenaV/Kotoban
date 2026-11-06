@@ -5,6 +5,9 @@ import java.util.List;
 
 
 public interface CategoryRepository extends CrudRepository<Category, Long> {
-List<Category> findByWordCategory(String wordCategory);;
+List<Category> findByWordCategory(String wordCategory);
+List<Category> findByCategoryId(Long categoryId);
+
+
 
 }

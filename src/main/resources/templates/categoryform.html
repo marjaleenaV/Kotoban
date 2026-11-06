@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Create category</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+</head>
+
+<body>
+    <nav class="navbar bg-white border-bottom">
+
+        <div class="container">
+            <form th:action="@{/logout}" method="post" class="m-0">
+                <button type="submit" class="btn btn-outline-dark rounded-pill">Sign out</button>
+            </form>
+        </div>
+    </nav>
+    <main class="container py-5" style="text-align: center;">
+        <div class="py-4">
+            <h1 class="display-4 fw-bold">Create a new Category</h1>
+
+
+            <form th:action="@{/savecategory}" th:object="${category}" method="post">
+                <label>Category name
+                    <input type="text" th:field="*{wordCategory}" required>
+                </label>
+                <button type="submit" class="btn btn-outline-dark rounded-pill">Create</button>
+            </form>
+            <form th:action="@{/categories}" method="get" class="mt-4">
+                <button type="submit" class="btn btn-outline-dark rounded-pill">Cancel</button>
+            </form>
+        </div>
+    </main>
+
+</body>
+
+</html>

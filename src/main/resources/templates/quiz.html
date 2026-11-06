@@ -36,7 +36,7 @@
                 <form th:if="${correctAnswer != null and !last}" th:action="@{/quiz/next}" method="get" class="m-0">
                     <button type="submit" class="btn btn-outline-dark">Next</button>
                 </form>
-                <form th:if="${correctAnswer != null and last}" th:action="@{/wordlists}" method="get" class="m-0">
+                <form th:if="${correctAnswer != null and last}" th:action="@{/quiz/finished}" method="get" class="m-0">
                     <button type="submit" class="btn btn-outline-dark">Finish</button>
                 </form>
             </div>

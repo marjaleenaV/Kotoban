@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Add words to Cartegory</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+</head>
+
+<body>
+    <nav class="navbar bg-white border-bottom">
+
+        <div class="container">
+            <form th:action="@{/logout}" method="post" class="m-0">
+                <button type="submit" class="btn btn-outline-dark rounded-pill">Sign out</button>
+            </form>
+        </div>
+    </nav>
+    <main class="container py-5" style="text-align: center;">
+        <div class="py-4">
+            <h1 class="display-4 fw-bold">Add words to the category</h1>
+
+            <form th:object="${word}" th:action="@{../categories/{listId}/addCategoryWords(listId=${list.categoryId})}" action="#" method="post">
+                <table style="margin: auto;">
+                    <tr>
+                        <td><label for="japanese">Japanese</label>
+                            <input type="text" id="japanese" th:field="*{japanese}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="reading">Reading</label>
+                            <input type="text" id="reading" th:field="*{reading}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="meaning">Meaning</label>
+                            <input type="text" id="meaning" th:field="*{meaning}" />
+                        </td>
+                    </tr>
+                </table>
+                <button type="submit" class="btn btn-outline-dark rounded-pill">Add</button>
+            </form>
+            <br>
+            <form th:action="@{../categories}" method="get" class="mt-4">
+                <button type="submit" class="btn btn-outline-dark rounded-pill">Save words</button>
+            </form>
+            <form th:action="@{/categories}" method="get" class="mt-4">
+                <button type="submit" class="btn btn-outline-dark rounded-pill">Cancel</button>
+            </form>
+
+            <table class="table table-striped">
+                <tr>
+                    <th>Japanese</th>
+                    <th>Reading</th>
+                    <th>Meaning</th>
+                    <th></th>
+
+                </tr>
+                <tr th:each="word : ${list.words}">
+                    <td th:text="${word.japanese}"></td>
+                    <td th:text="${word.reading}"></td>
+                    <td th:text="${word.meaning}"></td>
+                    <td><a class="btn btn-danger" th:href="@{/categories/{categoryId}/removeword/{wordId}(categoryId=${list.categoryId}, wordId=${word.id})}">Delete</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </main>
+
+</body>
+
+</html>
