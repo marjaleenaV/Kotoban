@@ -25,10 +25,11 @@
             <ul class="list-group">
                 <li class="list-group-item" th:each="list : ${categories}">
                     <a class="btn btn-outline-dark" type="button" th:href="@{/categories/quiz/{categoryId}(categoryId=${list.categoryId})}" th:text="${list.wordCategory}"></a>
-                    <a sec:authorize="hasAuthority('ADMIN')" class="btn" title="Edit Category" type="button" th:href="@{/categories/{categoryId}(categoryId=${list.categoryId})}">✏️</a>
+                    <a sec:authorize="hasAuthority('ADMIN')" class="btn" title="Edit Category" type="button" th:href="@{/admin/categories/{categoryId}(categoryId=${list.categoryId})}">✏️</a>
+                    <a sec:authorize="hasAuthority('ADMIN')" class="btn" title="Delete Category" th:href="@{/admin/categories/{id}/delete(id=${list.categoryId})}">🚫</a>
                 </li>
             </ul>
-            <form th:action="@{/categoryform}" method="get">
+            <form th:action="@{/admin/categoryform}" method="get">
                 <input sec:authorize="hasAuthority('ADMIN')" class="btn btn-success mt-4" type="submit" value="Create a new category" />
             </form>
 

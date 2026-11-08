@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-
-
 import kotoban.domain.Word;
 import kotoban.domain.WordRepository;
 import kotoban.domain.WordList;
@@ -71,7 +69,7 @@ public class AppController {
     }
 
     // Create a new category and open a category creation form
-    @RequestMapping(value = "/categoryform", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/categoryform", method = RequestMethod.GET)
     public String showNewCategoryForm(Model model) {
         model.addAttribute("category", new Category());
         return "categoryform";
@@ -86,13 +84,13 @@ public class AppController {
     }
 
     // Save Category
-    @RequestMapping(value = "/savecategory", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/savecategory", method = RequestMethod.POST)
     public String saveCategoryList(Category category) {
         Category newCategory = categoryRepository.save(category);
-        return "redirect:categories/" + newCategory.getCategoryId();
+        return "redirect:/admin/categories/" + newCategory.getCategoryId();
     }
 
-    // Open a addwords form 
+    // Open a addwords form
     @RequestMapping(value = "/wordlists/{id}", method = RequestMethod.GET)
     public String openAddWordsForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("list", wordListRepository.findById(id).get());
@@ -101,7 +99,7 @@ public class AppController {
     }
 
     // Open a addCategoryWords form
-    @RequestMapping(value = "/categories/{listId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/categories/{listId}", method = RequestMethod.GET)
     public String openAddCategoryWordsForm(@PathVariable("listId") Long listId, Model model) {
         model.addAttribute("list", categoryRepository.findById(listId).get());
         model.addAttribute("word", new Word());
@@ -118,12 +116,12 @@ public class AppController {
     }
 
     // Save words under the category
-    @RequestMapping(value = "/categories/{listId}/addCategoryWords", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/categories/{listId}/addCategoryWords", method = RequestMethod.POST)
     public String saveWordsToCategory(@PathVariable("listId") Long listId, Word word) {
         Category category = categoryRepository.findById(listId).orElseThrow();
         word.setWordCategory(category);
         wordRepository.save(word);
-        return "redirect:/categories/" + listId;
+        return "redirect:/admin/categories/" + listId;
     }
 
     // Delete wordlist
@@ -133,12 +131,19 @@ public class AppController {
         return "redirect:/wordlists";
     }
 
+    // deletes a category and all words in it, then goes back to the category list
+    @GetMapping("/admin/categories/{categoryId}/delete")
+    public String deleteCategory(@PathVariable("categoryId") Long categoryId) {
+        categoryRepository.deleteById(categoryId);
+        return "redirect:/categories";
+    }
+
     // Remove words from category (while creating a category)
-    @GetMapping("/categories/{categoryId}/removeword/{wordId}")
+    @GetMapping("/admin/categories/{categoryId}/removeword/{wordId}")
     public String removeWordFromCategory(@PathVariable("categoryId") Long categoryId,
             @PathVariable("wordId") Long wordId) {
         wordRepository.deleteById(wordId);
-        return "redirect:/categories/" + categoryId;
+        return "redirect:/admin/categories/" + categoryId;
     }
 
     // Show all words
@@ -157,7 +162,7 @@ public class AppController {
                 words.addAll(wordlist.getWordlist());
             }
 
-        // Users list of words
+            // Users list of words
         } else {
             Set<WordList> userlists = wordListRepository.findByOwner(user);
             for (WordList wordlist : userlists) {
@@ -180,17 +185,18 @@ public class AppController {
     public String deleteWord(@PathVariable("id") Long wordId, RedirectAttributes redirectAttributes) {
         Word word = wordRepository.findById(wordId).orElse(null);
 
-        //Check that word exist
+        // Check that word exist
         if (word == null) {
             return "redirect:/words";
         }
 
         // Check if word belongs to users wordlist
         if (wordListRepository.existsByWordlistContaining(word)) {
-            redirectAttributes.addFlashAttribute("error", "This word belongs to a user's word list and cannot be deleted.");
+            redirectAttributes.addFlashAttribute("error",
+                    "This word belongs to a user's word list and cannot be deleted.");
             return "redirect:/words";
         }
-        
+
         wordRepository.deleteById(wordId);
         return "redirect:../words";
     }

@@ -21,7 +21,7 @@
             <h1 class="display-4 fw-bold">Create a new Category</h1>
 
 
-            <form th:action="@{/savecategory}" th:object="${category}" method="post">
+            <form th:action="@{/admin/savecategory}" th:object="${category}" method="post">
                 <label>Category name
                     <input type="text" th:field="*{wordCategory}" required>
                 </label>
