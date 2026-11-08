@@ -24,7 +24,6 @@ import kotoban.domain.WordList;
 import kotoban.domain.WordListRepository;
 import kotoban.domain.User;
 import kotoban.domain.UserRepository;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -43,20 +42,13 @@ public class AppController {
         this.categoryRepository = categoryRepository;
     }
 
-    // Game start
+    // Welcome page
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String welcomePage() {
         return "index";
     }
 
-    // Review
-    // @RequestMapping(value= "/review", method=RequestMethod.GET)
-    // public String reviewWords(@RequestParam String param) {
-    // List<Word> words = (List<Word>)
-    // return "review";
-    // }
-
-    // Show users wordlists
+    // Shows users wordlists
     @RequestMapping(value = "/wordlists", method = RequestMethod.GET)
     public String showWordLists(Model model, Principal principal) {
         User user = userRepository.findByUsername(principal.getName());
@@ -85,7 +77,7 @@ public class AppController {
         return "categoryform";
     }
 
-    // Save a new wordlist
+    // Save new users private wordlist
     @RequestMapping(value = "savelist", method = RequestMethod.POST)
     public String saveList(WordList wordList, Principal principal) {
         wordList.setOwner(userRepository.findByUsername(principal.getName()));
@@ -95,12 +87,12 @@ public class AppController {
 
     // Save Category
     @RequestMapping(value = "/savecategory", method = RequestMethod.POST)
-    public String saveList(Category category) {
+    public String saveCategoryList(Category category) {
         Category newCategory = categoryRepository.save(category);
         return "redirect:categories/" + newCategory.getCategoryId();
     }
 
-    // Open a addwords form
+    // Open a addwords form 
     @RequestMapping(value = "/wordlists/{id}", method = RequestMethod.GET)
     public String openAddWordsForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("list", wordListRepository.findById(id).get());
@@ -165,7 +157,7 @@ public class AppController {
                 words.addAll(wordlist.getWordlist());
             }
 
-            // Users list of words
+        // Users list of words
         } else {
             Set<WordList> userlists = wordListRepository.findByOwner(user);
             for (WordList wordlist : userlists) {
@@ -188,6 +180,7 @@ public class AppController {
     public String deleteWord(@PathVariable("id") Long wordId, RedirectAttributes redirectAttributes) {
         Word word = wordRepository.findById(wordId).orElse(null);
 
+        //Check that word exist
         if (word == null) {
             return "redirect:/words";
         }

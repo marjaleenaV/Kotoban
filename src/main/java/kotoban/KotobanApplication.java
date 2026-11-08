@@ -54,7 +54,7 @@ public class KotobanApplication {
 
 			Word word3 = new Word();
 			word3.setJapanese("緑");
-			word3.setReading("もどり");
+			word3.setReading("みどり");
 			word3.setMeaning("green");
 			word3.setWordCategory(category1);
 			wordRepository.save(word3);
