@@ -35,7 +35,7 @@
        <td th:text="${word.japanese}"></td>
        <td th:text="${word.reading}"></td>
         <td th:text="${word.meaning}"></td>
-        <td th:text="${word.wordCategory.getWordCategory}"></td>
+        <td th:text="${word.wordCategory != null ? word.wordCategory.getWordCategory : ''}"></td>
          <td sec:authorize="hasAuthority('ADMIN')"><a class="btn btn-danger" th:href="@{/delete/{id}(id=${word.id})}">Delete</a></td>
      </tr>
 </table>

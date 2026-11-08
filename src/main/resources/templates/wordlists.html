@@ -24,11 +24,13 @@
 
             <ul class="list-group">
                 <li class="list-group-item" th:each="list : ${lists}">
-                    <a class="btn btn-success" type="button" th:href="@{/wordlists/quiz/{listid}(listid=${list.wordListId})}" th:text="${list.listName}"></a>
+                    <a class="btn btn-outline-dark" type="button" th:href="@{/wordlists/quiz/{listid}(listid=${list.wordListId})}" th:text="${list.listName}"></a>
+                    <a class="btn btn-outline-light" type="button" title="Edit list" th:href="@{/wordlists/{listid}(listid=${list.wordListId})}" >✏️</a>
+                    <a class="btn btn-outline-light" type="button" title="Delete list" th:href="@{/wordlists/{listid}/deletelist(listid=${list.wordListId})}" >🚫</a>
                 </li>
             </ul>
             <form th:action="@{/listform}" method="get">
-                <input class="btn btn-success" type="submit" value="Create a new list" />
+                <input class="btn btn-success mt-4" type="submit" value="Create a new list" />
             </form>
 
             <a th:href="@{/index}" class="btn btn-outline-dark  rounded-pill mt-4">Back</a>
