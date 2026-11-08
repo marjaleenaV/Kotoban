@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+
+
 import kotoban.domain.Word;
 import kotoban.domain.WordRepository;
 import kotoban.domain.WordList;
@@ -23,6 +25,7 @@ import kotoban.domain.WordListRepository;
 import kotoban.domain.User;
 import kotoban.domain.UserRepository;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class AppController {
@@ -182,7 +185,19 @@ public class AppController {
     @PreAuthorize("hasAuthority('ADMIN')")
     // Security
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    public String deleteWord(@PathVariable("id") Long wordId, Model model) {
+    public String deleteWord(@PathVariable("id") Long wordId, RedirectAttributes redirectAttributes) {
+        Word word = wordRepository.findById(wordId).orElse(null);
+
+        if (word == null) {
+            return "redirect:/words";
+        }
+
+        // Check if word belongs to users wordlist
+        if (wordListRepository.existsByWordlistContaining(word)) {
+            redirectAttributes.addFlashAttribute("error", "This word belongs to a user's word list and cannot be deleted.");
+            return "redirect:/words";
+        }
+        
         wordRepository.deleteById(wordId);
         return "redirect:../words";
     }

@@ -41,15 +41,16 @@
                 </table>
                 <button type="submit" class="btn btn-outline-dark rounded-pill">Add</button>
             </form>
-            <br>
-            <form th:action="@{../wordlists}" method="get" class="mt-4">
+            <div class="d-flex justify-content-center mt-4">
+            <form th:action="@{../wordlists}" method="get" style="margin-right: 24px;">
                 <button type="submit" class="btn btn-outline-dark rounded-pill">Save list</button>
             </form>
-            <form th:action="@{/wordlists}" method="get" class="mt-4">
+            <form th:action="@{/wordlists}" method="get">
                 <button type="submit" class="btn btn-outline-dark rounded-pill">Cancel</button>
             </form>
+            </div>
 
-            <table class="table table-striped">
+            <table class="table table-striped mt-4">
                 <tr>
                     <th>Japanese</th>
                     <th>Reading</th>

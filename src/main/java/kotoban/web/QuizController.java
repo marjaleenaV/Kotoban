@@ -47,6 +47,8 @@ public class QuizController {
         // keeps the same suffled list the same whole session
         session.setAttribute("quizWords", list); // list
         session.setAttribute("quizIndex", 0); // starting index
+        session.setAttribute("quizScore", 0); // Set counter to zero
+        session.setAttribute("answered", false); //set status of word
         return "redirect:/quiz";
     }
 
@@ -63,6 +65,8 @@ public class QuizController {
         // keeps the same suffled categorylist through the list in session
         session.setAttribute("quizWords", list); // list
         session.setAttribute("quizIndex", 0); // starting index
+        session.setAttribute("quizScore", 0); // Set counter to zero
+        session.setAttribute("answered", false); //set status of word
         return "redirect:/quiz";
     }
 
@@ -98,6 +102,17 @@ public class QuizController {
         Word word = words.get(index);
         boolean correct = word.getMeaning() != null && word.getMeaning().trim().equalsIgnoreCase(answer.trim());
 
+        // Set a status for word and count correct answers (same word cannot be answered twice)
+        Boolean answered = (Boolean) session.getAttribute("answered");
+        if (answered == null || answered == false) { //Adds a point if answered is null or false
+            if (correct == true ) {
+                int score = (Integer) session.getAttribute("quizScore");
+                session.setAttribute("quizScore", score + 1);
+            }
+            session.setAttribute("anwered", true); //changes the status true
+        }
+
+
         // Sends information to the quiz page
         model.addAttribute("last", index == words.size() - 1);
         model.addAttribute("quizWord", word);
@@ -107,9 +122,10 @@ public class QuizController {
         return "quiz";
     }
 
-    // Move forward to the next question
+    // Set status false and move forward to the next question
     @GetMapping("/quiz/next")
     public String getMethodName(HttpSession session) {
+        session.setAttribute("answered", false); 
         int index = (Integer) session.getAttribute("quizIndex");
         session.setAttribute("quizIndex", index + 1);
         return "redirect:/quiz";
@@ -117,7 +133,10 @@ public class QuizController {
 
     // Finish game
     @GetMapping("/quiz/finished")
-    public String quizFinished() {
+    public String quizFinished(HttpSession session, Model model) {
+        List<Word> words = (List<Word>) session.getAttribute("quizWords");
+        model.addAttribute("score", session.getAttribute("quizScore"));
+        model.addAttribute("size", words.size());
         return "quizresult";
     }
 }

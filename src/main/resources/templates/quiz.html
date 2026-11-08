@@ -24,7 +24,7 @@
                 <p th:text="${quizWord.reading}"></p>
             </details>
 
-            <form th:action="@{/quiz/answer}" method="post" class="mt-4">
+            <form th:if="${correctAnswer == null}" th:action="@{/quiz/answer}" method="post" class="mt-4">
                 <input type="text" name="answer" placeholder="Meaning" autofocus />
                 <input type="submit" value="Check" class="btn btn-outline-dark" />
             </form>

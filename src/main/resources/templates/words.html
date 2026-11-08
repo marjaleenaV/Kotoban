@@ -30,6 +30,10 @@
    <th>Category</th>
    <th sec:authorize="hasAuthority('ADMIN')"> </th>
    
+   <script th:if="${error}" th:inline="javascript">
+    alert([[${error}]]);
+</script>
+
   </tr>
      <tr th:each = "word : ${words}">
        <td th:text="${word.japanese}"></td>

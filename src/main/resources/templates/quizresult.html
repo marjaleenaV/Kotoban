@@ -19,7 +19,8 @@
         <div class="py-4">
             <div style="text-align: center;">
         <h1 class="display-4 fw-bold">List finished!</h1>
-        <p>You went through all the words.</p>
+        <p style="font-size: large;">You went through all the words.</p>
+        <p style="color: rgb(13, 131, 13); font-size: x-large;">Your score: <span th:text="${score}">0</span> / <span th:text="${size}">0</span></p>
 
         <a class="btn btn-outline-dark rounded-pill" th:href="@{/categories}">Back to categories</a>
         <a class="btn btn-outline-dark rounded-pill" th:href="@{/wordlists}">Back to my wordlists</a>
