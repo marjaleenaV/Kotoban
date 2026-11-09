@@ -138,6 +138,20 @@ public class AppController {
         return "redirect:/categories";
     }
 
+    // Remove words from wordlist (while creating it)
+    @RequestMapping(value = "/wordlists/delete/{listId}/{wordId}", method = RequestMethod.GET)
+    public String deleteWord(@PathVariable("listId") Long listId,
+            @PathVariable("wordId") Long wordId) {
+
+        WordList list = wordListRepository.findById(listId).get();
+        Word word = wordRepository.findById(wordId).get();
+
+        list.getWordlist().remove(word);
+        wordListRepository.save(list);
+        wordRepository.delete(word);
+        return "redirect:/wordlists/" + listId;
+    }
+
     // Remove words from category (while creating a category)
     @GetMapping("/admin/categories/{categoryId}/removeword/{wordId}")
     public String removeWordFromCategory(@PathVariable("categoryId") Long categoryId,

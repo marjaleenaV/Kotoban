@@ -62,7 +62,7 @@
                     <td th:text="${word.japanese}"></td>
                     <td th:text="${word.reading}"></td>
                     <td th:text="${word.meaning}"></td>
-                    <td><a class="btn btn-danger" th:href="@{/delete/{id}(id=${word.id})}">Delete</a>
+                    <td><a class="btn btn-danger" th:href="@{/wordlists/delete/{listId}/{wordId}(listId=${list.wordListId},wordId=${word.id})}">Delete</a>
                     </td>
                 </tr>
             </table>
